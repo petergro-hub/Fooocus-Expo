@@ -44,6 +44,8 @@ progress::-moz-progress-bar {
   background-color: #3498db; /* Blue color for the fill in Firefox */
 }
 
+footer {visibility: hidden}
+
 /* Style the text on the progress bar */
 progress::after {
   content: attr(value '%'); /* Display the progress value followed by '%' */

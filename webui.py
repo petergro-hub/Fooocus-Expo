@@ -73,7 +73,7 @@ def generate_clicked(*args):
 reload_javascript()
 
 shared.gradio_root = gr.Blocks(
-    title=f'Fooocus {fooocus_version.version} ' + ('' if args_manager.args.preset is None else args_manager.args.preset),
+    title=f'EPFL Cut/Paste' + ('' if args_manager.args.preset is None else args_manager.args.preset),
     css=modules.html.css).queue()
 
 with shared.gradio_root:
@@ -113,7 +113,7 @@ with shared.gradio_root:
                     stop_button.click(stop_clicked, outputs=[skip_button, stop_button], queue=False, _js='cancelGenerateForever')
                     skip_button.click(skip_clicked, queue=False)
             with gr.Row(elem_classes='advanced_check_row'):
-                input_image_checkbox = gr.Checkbox(label='Input Image', value=False, container=False, elem_classes='min_check')
+                input_image_checkbox = gr.Checkbox(label='Input Image', value=False, container=False, elem_classes='min_check', visible=False)
                 advanced_checkbox = gr.Checkbox(label='Advanced', value=modules.path.default_advanced_checkbox, container=False, elem_classes='min_check')
             with gr.Row(visible=False) as image_input_panel:
                 with gr.Tabs():
