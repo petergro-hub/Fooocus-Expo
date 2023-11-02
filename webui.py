@@ -73,8 +73,8 @@ def generate_clicked(*args):
 reload_javascript()
 
 shared.gradio_root = gr.Blocks(
-    title=f'EPFL Cut/Paste' + ('' if args_manager.args.preset is None else args_manager.args.preset),
-    css=modules.html.css).queue()
+    title=f'EPFL Cut/Paste',
+    css=modules.html.css).queue() # + ('' if args_manager.args.preset is None else args_manager.args.preset)
 
 with shared.gradio_root:
     with gr.Row():
