@@ -86,7 +86,7 @@ with shared.gradio_root:
             gallery = gr.Gallery(label='Gallery', show_label=False, object_fit='contain', height=745, visible=True, elem_classes='resizable_area')
             with gr.Row(elem_classes='type_row'):
                 with gr.Column(scale=17):
-                    prompt = gr.Textbox(show_label=False, placeholder="Type prompt here.",
+                    prompt = gr.Textbox(show_label=False, placeholder="Type prompt here. / Écrivez içi, les resultats sont mieux en anglais.",
                                         container=False, autofocus=True, elem_classes='type_row', lines=1024)
 
                     default_prompt = modules.path.default_prompt
@@ -114,7 +114,8 @@ with shared.gradio_root:
                     skip_button.click(skip_clicked, queue=False)
             with gr.Row(elem_classes='advanced_check_row'):
                 input_image_checkbox = gr.Checkbox(label='Input Image', value=False, container=False, elem_classes='min_check', visible=False)
-                advanced_checkbox = gr.Checkbox(label='Advanced', value=modules.path.default_advanced_checkbox, container=False, elem_classes='min_check')
+                #advanced_checkbox = gr.Checkbox(label='Advanced', value=modules.path.default_advanced_checkbox, container=False, elem_classes='min_check')
+                adv = gr.Textbox(label='Advanced - Staff', placeholder="Settings")
             with gr.Row(visible=False) as image_input_panel:
                 with gr.Tabs():
                     with gr.TabItem(label='Upscale or Variation') as uov_tab:
@@ -163,7 +164,7 @@ with shared.gradio_root:
                                 [flags.default_ip] * len(ip_types) + \
                                 [flags.default_parameters[flags.default_ip][0]] * len(ip_stops) + \
                                 [flags.default_parameters[flags.default_ip][1]] * len(ip_weights)
-
+                        
                         ip_advanced.change(ip_advance_checked, inputs=ip_advanced,
                                            outputs=ip_ad_cols + ip_types + ip_stops + ip_weights, queue=False)
 
@@ -199,7 +200,7 @@ with shared.gradio_root:
                 aspect_ratios_selection = gr.Radio(label='Aspect Ratios', choices=modules.path.available_aspect_ratios,
                                                    value=modules.path.default_aspect_ratio, info='width × height')
                 image_number = gr.Slider(label='Image Number', minimum=1, maximum=32, step=1, value=1)# hardcoding 1 here, as the import does not seem to work correctly #modules.path.default_image_number)
-                negative_prompt = gr.Textbox(label='Negative Prompt', show_label=True, placeholder="Type prompt here.",
+                negative_prompt = gr.Textbox(label='Negative Prompt', show_label=True, placeholder="Type prompt here. / Écrivez içi, les resultats sont mieux en anglais.",
                                              info='Describing what you do not want to see.', lines=2,
                                              value=modules.path.default_prompt_negative)
                 seed_random = gr.Checkbox(label='Random', value=True)
@@ -359,7 +360,14 @@ with shared.gradio_root:
 
                 model_refresh.click(model_refresh_clicked, [], [base_model, refiner_model] + lora_ctrls, queue=False)
 
-        advanced_checkbox.change(lambda x: gr.update(visible=x), advanced_checkbox, advanced_column, queue=False)
+        #advanced_checkbox.change(lambda x: gr.update(visible=x), advanced_checkbox, advanced_column, queue=False)
+
+        def check_pw(pw):
+            if pw == "epflpavillon":
+                return gr.update(visible=True)
+            return gr.update(visible=False)
+                
+        adv.change(check_pw, adv, advanced_column, queue=False)
 
         ctrls = [
             prompt, negative_prompt, style_selections,
